@@ -13,7 +13,7 @@ int is_bst_recursive(const binary_tree_t *tree, const int *min, const int *max)
 	if (tree == NULL)
 		return (1);
 
-	if ((min != NULL && tree->n < *min) || (max != NULL && tree->n >= *max))
+	if ((min != NULL && tree->n <= *min) || (max != NULL && tree->n >= *max))
 		return (0);
 
 	return (is_bst_recursive(tree->left, min, &(tree->n)) &&
