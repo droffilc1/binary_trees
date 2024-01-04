@@ -8,16 +8,16 @@
  *
  * Return: 1 if tree is a valid BST, and 0 otherwise
  */
-int is_bst_recursive(const binary_tree_t *tree, const int *min, const int *max)
+int is_bst_recursive(const binary_tree_t *tree, int min, int max)
 {
 	if (tree == NULL)
 		return (1);
 
-	if ((min != NULL && tree->n <= *min) || (max != NULL && tree->n >= *max))
+	if (tree->n < min || tree->n > max)
 		return (0);
 
-	return (is_bst_recursive(tree->left, min, &(tree->n)) &&
-			is_bst_recursive(tree->right, &(tree->n), max));
+	return (is_bst_recursive(tree->left, min, tree->n - 1) &&
+			is_bst_recursive(tree->right, tree->n + 1, max));
 }
 
 /**
@@ -37,12 +37,9 @@ int is_bst_recursive(const binary_tree_t *tree, const int *min, const int *max)
 */
 int binary_tree_is_bst(const binary_tree_t *tree)
 {
-	int min = INT_MIN;
-	int max = INT_MAX;
-
 	if (tree == NULL)
 		return (1);
 
-	return (is_bst_recursive(tree, &min, &max));
+	return (is_bst_recursive(tree, INT_MIN, INT_MAX));
 
 }
