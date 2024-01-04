@@ -19,6 +19,21 @@ int is_bst_recursive(const binary_tree_t *tree, const int *min, const int *max)
 	return (is_bst_recursive(tree->left, min, &(tree->n)) &&
 			is_bst_recursive(tree->right, &(tree->n), max));
 }
+
+/**
+ * binary_tree_is_bst_wrapper - wrapper function to handle edge cases
+ * @tree: a pointer to the root node of the tree to check
+ *
+ * Return: 1 if tree is a valid BST, and 0 otherwise
+ */
+int binary_tree_is_bst_wrapper(const binary_tree_t *tree)
+{
+	if (tree == NULL)
+		return (0); /* An empty tree is not a valid BST */
+
+	/* Call the original function */
+	return (binary_tree_is_bst(tree));
+}
 /**
  * binary_tree_is_bst - checks if a binary tree is a valid Binary Search Tree
  * @tree: a pointer to the root node of the tree to check
