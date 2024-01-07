@@ -26,32 +26,43 @@ bst_t *bst_find_min(bst_t *node)
 */
 bst_t *bst_remove(bst_t *root, int value)
 {
-	bst_t *temp;
+	bst_t *temp, *parent;
 
 	if (root == NULL)
 		return (NULL);
-
-	if (value < root->n)
+	else if (value < root->n)
 		root->left = bst_remove(root->left, value);
 	else if (value > root->n)
 		root->right = bst_remove(root->right, value);
 	else
 	{
-		if (root->left == NULL)
+		if (root->left == NULL && root->right == NULL)
 		{
-			temp = root->right;
 			free(root);
-			return (temp);
+			root = NULL;
+		}
+		else if (root->left == NULL)
+		{
+			temp = root;
+			parent = root->parent;
+			root = root->right;
+			root->parent = parent;
+			free(temp);
 		}
 		else if (root->right == NULL)
 		{
-			temp = root->left;
-			free(root);
-			return (temp);
+			temp = root;
+			parent = root->parent;
+			root = root->left;
+			root->parent = parent;
+			free(temp);
 		}
-		temp = bst_find_min(root->right);
-		root->n = temp->n;
-		root->right = bst_remove(root->right, temp->n);
+		else
+		{
+			temp = bst_find_min(root->right);
+			root->n = temp->n;
+			root->right = bst_remove(root->right, temp->n);
+		}
 	}
 	return (root);
 }
